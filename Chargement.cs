@@ -17,6 +17,7 @@ namespace ShinyDex
 {
     public partial class Chargement : Form
     {
+        private List<string> pokemons = new List<string>();
         public Chargement()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -60,67 +61,19 @@ namespace ShinyDex
                 }
 
                 progressBar1.Maximum = nbr_pokemon;
-                List<string> pokemons = new List<string>();
 
 
+                List<Task> tasks = new List<Task>();
                 if (all_pokemon?.results != null)
                 {
+                    
                     foreach (var pokemon in all_pokemon.results)
                     {
-
-                        try
-                        {
-                            using (var PokeApiClient = new PokeApiClient())
-                            {
-                                WishedPokemon match = GestionSauvegarde.Charger((string)pokemon.name);
-                                if (match.Pokemon == null)
-                                {
-                                    if (pokemon.name != null)
-                                    {
-                                        var pokemon_details = await PokeApiClient.GetResourceAsync<Pokemon>((string)pokemon.name);
-                                        int id = pokemon_details.Id;
-                                        if (pokemon_details.IsDefault)
-                                        {
-                                            progressBar1.Value++;
-                                            var pokemon_species = await PokeApiClient.GetResourceAsync<PokemonSpecies>(id);
-                                            WishedPokemon wishedPokemon = new WishedPokemon();
-
-                                            wishedPokemon.Pokemon = pokemon_details;
-                                            wishedPokemon.NomFrancais = pokemon_species.Names.Where(n => n.Language.Name == "fr").FirstOrDefault()?.Name;
-                                            wishedPokemon.Generation = pokemon_species.Generation.Name;
-                                            pokemons.Add(wishedPokemon.Pokemon.Name);
-                                            GestionSauvegarde.Sauvegarder(wishedPokemon);
-
-                                            //On parcours les variétés de ce pokémon pour les sauvegarder
-                                            foreach (var variety in pokemon_species.Varieties.Where(v => v.IsDefault == false))
-                                            {
-                                                progressBar1.Value++;
-                                                var pokemon_infos = await PokeApiClient.GetResourceAsync<Pokemon>(variety.Pokemon);
-                                                var pokemon_form = await PokeApiClient.GetResourceAsync<PokemonForm>(variety.Pokemon.Name);
-                                                WishedPokemon wishedPokemonVariety = new WishedPokemon();
-                                                wishedPokemonVariety.Pokemon = pokemon_infos;
-                                                wishedPokemonVariety.NomFrancais = pokemon_form.Names.Where(n => n.Language.Name == "fr").FirstOrDefault()?.Name;
-                                                wishedPokemonVariety.Generation = pokemon_species.Generation.Name;
-                                                pokemons.Add(wishedPokemonVariety.Pokemon.Name);
-                                                GestionSauvegarde.Sauvegarder(wishedPokemonVariety);
-                                            }
-                                        }
-
-                                    }
-                                }
-                                else
-                                {
-                                    pokemons.Add(match.Pokemon.Name);
-                                }
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine($"{ex.Message} : {pokemon}");
-                        }
+                        tasks.Add(ChargerUnPokemon(pokemon));
                     }
                 }
+                await Task.WhenAll(tasks);
+
 
                 MenuPrincipal form1 = new MenuPrincipal(pokemons);
                 form1.Show();
@@ -128,6 +81,59 @@ namespace ShinyDex
             }
 
         }
+        private async Task ChargerUnPokemon(dynamic pokemon)
+        {
+            try
+            {
+                using (var PokeApiClient = new PokeApiClient())
+                {
+                    WishedPokemon match = GestionSauvegarde.Charger((string)pokemon.name);
+                    if (match.Pokemon == null)
+                    {
+                        if (pokemon.name != null)
+                        {
+                            var pokemon_details = await PokeApiClient.GetResourceAsync<Pokemon>((string)pokemon.name);
+                            int id = pokemon_details.Id;
+                            if (pokemon_details.IsDefault)
+                            {
+                                progressBar1.Invoke((Action)(() => progressBar1.Value++));
+                                var pokemon_species = await PokeApiClient.GetResourceAsync<PokemonSpecies>(id);
+                                WishedPokemon wishedPokemon = new WishedPokemon();
+
+                                wishedPokemon.Pokemon = pokemon_details;
+                                wishedPokemon.NomFrancais = pokemon_species.Names.Where(n => n.Language.Name == "fr").FirstOrDefault()?.Name;
+                                wishedPokemon.Generation = pokemon_species.Generation.Name;
+                                pokemons.Add(wishedPokemon.Pokemon.Name);
+                                GestionSauvegarde.Sauvegarder(wishedPokemon);
+
+                                //On parcours les variétés de ce pokémon pour les sauvegarder
+                                foreach (var variety in pokemon_species.Varieties.Where(v => v.IsDefault == false))
+                                {
+                                    progressBar1.Invoke((Action)(() => progressBar1.Value++));
+                                    var pokemon_infos = await PokeApiClient.GetResourceAsync<Pokemon>(variety.Pokemon);
+                                    var pokemon_form = await PokeApiClient.GetResourceAsync<PokemonForm>(variety.Pokemon.Name);
+                                    WishedPokemon wishedPokemonVariety = new WishedPokemon();
+                                    wishedPokemonVariety.Pokemon = pokemon_infos;
+                                    wishedPokemonVariety.NomFrancais = pokemon_form.Names.Where(n => n.Language.Name == "fr").FirstOrDefault()?.Name;
+                                    wishedPokemonVariety.Generation = pokemon_species.Generation.Name;
+                                    pokemons.Add(wishedPokemonVariety.Pokemon.Name);
+                                    GestionSauvegarde.Sauvegarder(wishedPokemonVariety);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        pokemons.Add(match.Pokemon.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"{ex.Message} : {pokemon}");
+            }
+        }
+
 
     }
 }

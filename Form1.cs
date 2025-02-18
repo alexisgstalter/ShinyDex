@@ -23,6 +23,7 @@ namespace ShinyDex
             {
                 this.pokemons.Add(GestionSauvegarde.Charger(pokemon));
             }
+            this.pokemons = this.pokemons.OrderBy(p => p.Pokemon.Id).ToList();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -92,7 +93,7 @@ namespace ShinyDex
                     PictureBox pictureBox = new PictureBox();
                     pictureBox.Location = new Point(x, y);
                     pictureBox.Size = new Size(pictureBoxWidth, pictureBoxHeight);
-                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
                     //on met un évènement click sur le pictureBox
                     pictureBox.Click += (sender, e) =>
