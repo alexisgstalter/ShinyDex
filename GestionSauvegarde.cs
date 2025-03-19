@@ -20,17 +20,17 @@ namespace ShinyDex
         public static void Sauvegarder(WishedPokemon pokemon, string path)
         {
             //On charge la liste des pokémons qu'ona  déjà dans notre fichier Json s'il existe
-            /*if(!Directory.Exists(path))
+            if(!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-            }*/
+            }
             string json = Newtonsoft.Json.JsonConvert.SerializeObject(pokemon);
             System.IO.File.WriteAllText(pokemon.Pokemon == null ? Path.Combine(path, pokemon.PokemonForm.Name + ".json") : Path.Combine(path, pokemon.Pokemon.Name + ".json"), json);
         }
 
         public static WishedPokemon Charger(string name)
         {
-            if(!File.Exists(name + ".json"))
+            if (!File.Exists(name + ".json"))
             {
                 return new WishedPokemon();
             }
@@ -54,7 +54,8 @@ namespace ShinyDex
 
         public static void SupprimerShasse(string path)
         {
-            File.Delete(path);
+            if (File.Exists(path))
+                File.Delete(path);
         }
     }
 }
