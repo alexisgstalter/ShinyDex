@@ -58,6 +58,9 @@ namespace ShinyDex
                 }));
 
             });
+            Sexe.Items.Add("");
+            Sexe.Items.Add("M");
+            Sexe.Items.Add("F");
             if (this.Pokemon.NombreRencontres != null)
             {
                 Rencontres.Text = this.Pokemon.NombreRencontres.ToString();
@@ -89,6 +92,7 @@ namespace ShinyDex
             this.Pokemon.Method = Methode.Text;
             this.Pokemon.Surname = Surnom.Text;
             this.Pokemon.Version = Version.SelectedItem.ToString();
+            this.pokemon.Sexe = Sexe.SelectedItem.ToString();
             GestionSauvegarde.Sauvegarder(this.Pokemon);
             GestionSauvegarde.SupprimerShasse("Encours/" + this.Pokemon.Pokemon.Name + ".json");
             this.Close();

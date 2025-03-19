@@ -43,6 +43,8 @@
             AjouterRencontre = new Button();
             lblversion = new Label();
             Version = new ComboBox();
+            label5 = new Label();
+            Sexe = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -130,7 +132,7 @@
             // ValiderCapture
             // 
             ValiderCapture.Font = new Font("Segoe UI", 25F);
-            ValiderCapture.Location = new Point(12, 337);
+            ValiderCapture.Location = new Point(12, 382);
             ValiderCapture.Name = "ValiderCapture";
             ValiderCapture.Size = new Size(376, 56);
             ValiderCapture.TabIndex = 8;
@@ -141,7 +143,7 @@
             // AnnulerCapture
             // 
             AnnulerCapture.Font = new Font("Segoe UI", 25F);
-            AnnulerCapture.Location = new Point(399, 337);
+            AnnulerCapture.Location = new Point(399, 382);
             AnnulerCapture.Name = "AnnulerCapture";
             AnnulerCapture.Size = new Size(376, 56);
             AnnulerCapture.TabIndex = 9;
@@ -201,11 +203,34 @@
             Version.Size = new Size(353, 53);
             Version.TabIndex = 14;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = SystemColors.Control;
+            label5.Font = new Font("Segoe UI", 25F);
+            label5.ForeColor = SystemColors.ControlText;
+            label5.Location = new Point(12, 308);
+            label5.Name = "label5";
+            label5.Size = new Size(90, 46);
+            label5.TabIndex = 15;
+            label5.Text = "Sexe";
+            // 
+            // Sexe
+            // 
+            Sexe.Font = new Font("Segoe UI", 25F);
+            Sexe.FormattingEnabled = true;
+            Sexe.Location = new Point(422, 305);
+            Sexe.Name = "Sexe";
+            Sexe.Size = new Size(353, 53);
+            Sexe.TabIndex = 16;
+            // 
             // Capture
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1545, 450);
+            Controls.Add(Sexe);
+            Controls.Add(label5);
             Controls.Add(Version);
             Controls.Add(lblversion);
             Controls.Add(AjouterRencontre);
@@ -248,5 +273,7 @@
         private Button AjouterRencontre;
         private Label lblversion;
         private ComboBox Version;
+        private Label label5;
+        private ComboBox Sexe;
     }
 }

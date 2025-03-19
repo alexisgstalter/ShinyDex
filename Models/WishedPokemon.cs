@@ -24,6 +24,7 @@ namespace ShinyDex.Models
         private int nombreRencontres = 0;
         private string method;
         private string version;
+        private string sexe;
 
         public Pokemon Pokemon { get => pokemon; set => pokemon = value; }
         public string Surname { get => surname; set => surname = value; }
@@ -38,6 +39,7 @@ namespace ShinyDex.Models
         public string Method { get => method; set => method = value; }
         public byte[] SpriteNormal { get => spriteNormal; set => spriteNormal = value; }
         public string Version { get => version; set => version = value; }
+        public string Sexe { get => sexe; set => sexe = value; }
 
         public Color GetBackgroundColorForPokemon()
         {
