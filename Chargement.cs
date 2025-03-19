@@ -20,6 +20,10 @@ namespace ShinyDex
         private List<string> pokemons = new List<string>();
         public Chargement()
         {
+            if(!Directory.Exists("Encours"))
+            {
+                Directory.CreateDirectory("Encours");
+            }
             this.StartPosition = FormStartPosition.CenterScreen;
 
             InitializeComponent();
