@@ -1,4 +1,5 @@
-﻿using ShinyDex.Models;
+﻿using PokeApiNet;
+using ShinyDex.Models;
 using ShinyDex.Utils;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace ShinyDex
 
         private void Capture_Load(object sender, EventArgs e)
         {
+            Version.Items.Add("");
             Task.Run(async () =>
             {
                 this.Invoke((Action)(async () =>
@@ -68,7 +70,8 @@ namespace ShinyDex
             Surnom.Text = this.Pokemon.Surname;
             Lieu.Text = this.Pokemon.Location;
             Methode.Text = this.Pokemon.Method;
-            Version.SelectedItem = this.Pokemon.Version;
+            Version.SelectedItem = this.Pokemon.Version ?? Version.Items[0];
+            Sexe.SelectedItem = this.Pokemon.Sexe ?? Sexe.Items[0];
 
             if (this.Pokemon.SpriteShiny == null)
             {
