@@ -146,7 +146,7 @@ namespace ShinyDex
                     label.Text = pokemon.NomFrancais.ToUpper();
                     if (pokemon.Captured)
                     {
-                        label.Text += " ("+ pokemon.Sexe +")\n" + pokemon.Surname + "\n" + pokemon.Location + "\n" + pokemon.Version + "\n" + pokemon.Date_captured + "\n" + pokemon.Method;
+                        label.Text += " ("+ pokemon.Sexe +")\n" + pokemon.Surname + "\n" + pokemon.Location + "\n" + pokemon.Version + "\n" + pokemon.Date_captured + "\n" + pokemon.Method + "\n(" + pokemon.NombreRencontres + " rencontres)";
                     }
                     //la taille de la font est choisie pour que le label ne fasse pas plus de 192 pixels de large
 
